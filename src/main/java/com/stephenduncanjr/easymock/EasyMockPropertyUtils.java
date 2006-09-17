@@ -30,6 +30,14 @@ import com.stephenduncanjr.easymock.matcher.BeanProperty;
 public class EasyMockPropertyUtils
 {
 	/**
+	 * Disables object creation.
+	 */
+	private EasyMockPropertyUtils()
+	{
+		// Hide constructor
+	}
+
+	/**
 	 * EasyMock matcher for the property on the object to be matched being equal
 	 * to the given value.
 	 * 

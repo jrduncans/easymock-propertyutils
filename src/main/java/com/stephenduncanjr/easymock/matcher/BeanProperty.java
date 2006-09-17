@@ -14,6 +14,7 @@
 
 package com.stephenduncanjr.easymock.matcher;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -32,7 +33,7 @@ import org.easymock.IArgumentMatcher;
 public class BeanProperty implements IArgumentMatcher
 {
 	/** Map of property names to values to match against. */
-	private Map<String, ?> expectedProperties;
+	private final Map<String, ?> expectedProperties;
 
 	/**
 	 * Creates a new matcher for the given property name and value.
@@ -75,7 +76,15 @@ public class BeanProperty implements IArgumentMatcher
 					return false;
 				}
 			}
-			catch (final Exception e)
+			catch (IllegalAccessException e)
+			{
+				return false;
+			}
+			catch (InvocationTargetException e)
+			{
+				return false;
+			}
+			catch (NoSuchMethodException e)
 			{
 				return false;
 			}
@@ -94,9 +103,9 @@ public class BeanProperty implements IArgumentMatcher
 		for (final Entry<String, ?> entry : this.expectedProperties.entrySet())
 		{
 			buffer.append(entry.getKey());
-			buffer.append("=");
+			buffer.append('=');
 			buffer.append(entry.getValue());
-			buffer.append(")");
+			buffer.append(')');
 		}
 	}
 }
