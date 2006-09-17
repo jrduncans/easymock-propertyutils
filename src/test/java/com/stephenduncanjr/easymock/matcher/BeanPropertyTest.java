@@ -36,21 +36,11 @@ public class BeanPropertyTest
 	 */
 	public static class TestClass
 	{
-		/** Value. */
-		private String value;
-
 		/** Integer value. */
 		private int intValue;
 
-		/**
-		 * Creates a new test object.
-		 * 
-		 * @param value
-		 */
-		TestClass(final String value)
-		{
-			this.value = value;
-		}
+		/** Value. */
+		private String value;
 
 		/**
 		 * Creates a new test object.
@@ -63,18 +53,11 @@ public class BeanPropertyTest
 		}
 
 		/**
-		 * @return Value of property value.
-		 */
-		public String getValue()
-		{
-			return this.value;
-		}
-
-		/**
+		 * Creates a new test object.
+		 * 
 		 * @param value
-		 *        New value of property value.
 		 */
-		public void setValue(final String value)
+		TestClass(final String value)
 		{
 			this.value = value;
 		}
@@ -88,6 +71,14 @@ public class BeanPropertyTest
 		}
 
 		/**
+		 * @return Value of property value.
+		 */
+		public String getValue()
+		{
+			return this.value;
+		}
+
+		/**
 		 * @param intValue
 		 *        New value of property intValue.
 		 */
@@ -95,35 +86,32 @@ public class BeanPropertyTest
 		{
 			this.intValue = intValue;
 		}
+
+		/**
+		 * @param value
+		 *        New value of property value.
+		 */
+		public void setValue(final String value)
+		{
+			this.value = value;
+		}
 	}
 
 	/**
-	 * Tests the bean property matcher.
+	 * Tests the appender.
 	 */
 	@Test(groups = "unit")
-	public void testBeanProperty()
+	public void testAppender()
 	{
 		final String propertyName = "value";
 		final String value = "testValue";
+		final BeanProperty beanProperty = new BeanProperty(propertyName, value);
 
-		TestClass matchTest = new TestClass("testValue");
-		TestClass noMatchTest = new TestClass("badTestValue");
+		final StringBuffer buffer = new StringBuffer();
+		beanProperty.appendTo(buffer);
 
-		BeanProperty beanProperty = new BeanProperty(propertyName, value);
-
-		assertTrue(beanProperty.matches(matchTest), "Equal property value should match.");
-		assertFalse(beanProperty.matches(noMatchTest), "Not equal property value should not match.");
-		assertFalse(beanProperty.matches(new Object()), "Object that does not have property should not match.");
-		assertFalse(new BeanProperty("bad", value).matches(matchTest), "Invalid property should not match.");
-
-		// TestClass integer property
-		matchTest = new TestClass(5);
-		noMatchTest = new TestClass(4);
-
-		beanProperty = new BeanProperty("intValue", 5);
-
-		assertTrue(beanProperty.matches(matchTest), "Equal integer property value should match.");
-		assertFalse(beanProperty.matches(noMatchTest), "Not equal integer property value should not match.");
+		assertTrue(buffer.toString().contains(propertyName), "Start value should occur in append.");
+		assertTrue(buffer.toString().contains(value), "End value should occur in append.");
 	}
 
 	/**
@@ -165,6 +153,35 @@ public class BeanPropertyTest
 	}
 
 	/**
+	 * Tests the bean property matcher.
+	 */
+	@Test(groups = "unit")
+	public void testBeanProperty()
+	{
+		final String propertyName = "value";
+		final String value = "testValue";
+
+		TestClass matchTest = new TestClass("testValue");
+		TestClass noMatchTest = new TestClass("badTestValue");
+
+		BeanProperty beanProperty = new BeanProperty(propertyName, value);
+
+		assertTrue(beanProperty.matches(matchTest), "Equal property value should match.");
+		assertFalse(beanProperty.matches(noMatchTest), "Not equal property value should not match.");
+		assertFalse(beanProperty.matches(new Object()), "Object that does not have property should not match.");
+		assertFalse(new BeanProperty("bad", value).matches(matchTest), "Invalid property should not match.");
+
+		// TestClass integer property
+		matchTest = new TestClass(5);
+		noMatchTest = new TestClass(4);
+
+		beanProperty = new BeanProperty("intValue", 5);
+
+		assertTrue(beanProperty.matches(matchTest), "Equal integer property value should match.");
+		assertFalse(beanProperty.matches(noMatchTest), "Not equal integer property value should not match.");
+	}
+
+	/**
 	 * Tests null handling.
 	 */
 	@Test(groups = "unit")
@@ -177,22 +194,5 @@ public class BeanPropertyTest
 		assertFalse(new BeanProperty(null, null).matches(test), "Null should not match non-null.");
 		assertFalse(new BeanProperty(null, test).matches(null), "Non-null should not match null.");
 		assertTrue(new BeanProperty("value", null).matches(nullTest), "Null values should match.");
-	}
-
-	/**
-	 * Tests the appender.
-	 */
-	@Test(groups = "unit")
-	public void testAppender()
-	{
-		final String propertyName = "value";
-		final String value = "testValue";
-		final BeanProperty beanProperty = new BeanProperty(propertyName, value);
-
-		final StringBuffer buffer = new StringBuffer();
-		beanProperty.appendTo(buffer);
-
-		assertTrue(buffer.toString().contains(propertyName), "Start value should occur in append.");
-		assertTrue(buffer.toString().contains(value), "End value should occur in append.");
 	}
 }

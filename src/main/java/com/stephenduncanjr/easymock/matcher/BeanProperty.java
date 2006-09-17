@@ -36,6 +36,18 @@ public class BeanProperty implements IArgumentMatcher
 	private final Map<String, ?> expectedProperties;
 
 	/**
+	 * Creates a new match for the given map of property names to values.
+	 * 
+	 * @param expectedProperties
+	 * @since 1.1
+	 */
+	public BeanProperty(final Map<String, ?> expectedProperties)
+	{
+		super();
+		this.expectedProperties = expectedProperties;
+	}
+
+	/**
 	 * Creates a new matcher for the given property name and value.
 	 * 
 	 * @param expectedPropertyValue
@@ -50,15 +62,19 @@ public class BeanProperty implements IArgumentMatcher
 	}
 
 	/**
-	 * Creates a new match for the given map of property names to values.
-	 * 
-	 * @param expectedProperties
-	 * @since 1.1
+	 * @see org.easymock.IArgumentMatcher#appendTo(java.lang.StringBuffer)
 	 */
-	public BeanProperty(final Map<String, ?> expectedProperties)
+	public void appendTo(final StringBuffer buffer)
 	{
-		super();
-		this.expectedProperties = expectedProperties;
+		buffer.append("propertyEq(");
+
+		for (final Entry<String, ?> entry : this.expectedProperties.entrySet())
+		{
+			buffer.append(entry.getKey());
+			buffer.append('=');
+			buffer.append(entry.getValue());
+			buffer.append(')');
+		}
 	}
 
 	/**
@@ -91,21 +107,5 @@ public class BeanProperty implements IArgumentMatcher
 		}
 
 		return true;
-	}
-
-	/**
-	 * @see org.easymock.IArgumentMatcher#appendTo(java.lang.StringBuffer)
-	 */
-	public void appendTo(final StringBuffer buffer)
-	{
-		buffer.append("propertyEq(");
-
-		for (final Entry<String, ?> entry : this.expectedProperties.entrySet())
-		{
-			buffer.append(entry.getKey());
-			buffer.append('=');
-			buffer.append(entry.getValue());
-			buffer.append(')');
-		}
 	}
 }

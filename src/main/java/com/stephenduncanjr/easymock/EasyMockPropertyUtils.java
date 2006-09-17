@@ -38,6 +38,26 @@ public class EasyMockPropertyUtils
 	}
 
 	/**
+	 * EasyMock matcher for the properties on the object to be matched being
+	 * equal to the mapped value.
+	 * 
+	 * @param <T>
+	 *        The type of object to match.
+	 * @param inClass
+	 *        The type of the object to match.
+	 * @param properties
+	 *        The map of property names to property values.
+	 * @return fake return value for EasyMock use.
+	 * @since 1.1
+	 */
+	public static <T> T propertiesEq(@SuppressWarnings("unused")
+	Class<T> inClass, final Map<String, ?> properties)
+	{
+		reportMatcher(new BeanProperty(properties));
+		return null;
+	}
+
+	/**
 	 * EasyMock matcher for the property on the object to be matched being equal
 	 * to the given value.
 	 * 
@@ -55,26 +75,6 @@ public class EasyMockPropertyUtils
 	final Class<T> inClass, final String property, final Object value)
 	{
 		reportMatcher(new BeanProperty(property, value));
-		return null;
-	}
-
-	/**
-	 * EasyMock matcher for the properties on the object to be matched being
-	 * equal to the mapped value.
-	 * 
-	 * @param <T>
-	 *        The type of object to match.
-	 * @param inClass
-	 *        The type of the object to match.
-	 * @param properties
-	 *        The map of property names to property values.
-	 * @return fake return value for EasyMock use.
-	 * @since 1.1
-	 */
-	public static <T> T propertiesEq(@SuppressWarnings("unused")
-	Class<T> inClass, final Map<String, ?> properties)
-	{
-		reportMatcher(new BeanProperty(properties));
 		return null;
 	}
 }

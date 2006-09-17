@@ -64,21 +64,11 @@ public class EasyMockPropertyUtilsTest
 	 */
 	public static class TestClass
 	{
-		/** Value. */
-		private String value;
-
 		/** Integer value. */
 		private int intValue;
 
-		/**
-		 * Creates a new test object.
-		 * 
-		 * @param value
-		 */
-		TestClass(final String value)
-		{
-			this.value = value;
-		}
+		/** Value. */
+		private String value;
 
 		/**
 		 * Creates a new test object.
@@ -91,18 +81,11 @@ public class EasyMockPropertyUtilsTest
 		}
 
 		/**
-		 * @return Value of property value.
-		 */
-		public String getValue()
-		{
-			return this.value;
-		}
-
-		/**
+		 * Creates a new test object.
+		 * 
 		 * @param value
-		 *        New value of property value.
 		 */
-		public void setValue(final String value)
+		TestClass(final String value)
 		{
 			this.value = value;
 		}
@@ -116,6 +99,14 @@ public class EasyMockPropertyUtilsTest
 		}
 
 		/**
+		 * @return Value of property value.
+		 */
+		public String getValue()
+		{
+			return this.value;
+		}
+
+		/**
 		 * @param intValue
 		 *        New value of property intValue.
 		 */
@@ -123,13 +114,16 @@ public class EasyMockPropertyUtilsTest
 		{
 			this.intValue = intValue;
 		}
+
+		/**
+		 * @param value
+		 *        New value of property value.
+		 */
+		public void setValue(final String value)
+		{
+			this.value = value;
+		}
 	}
-
-	/** TestClass property */
-	private static final String PROPERTY = "value";
-
-	/** TestClass property */
-	private static final String VALUE = "testValue";
 
 	/** Integer TestClass property */
 	private static final String INT_PROPERTY = "intValue";
@@ -137,23 +131,29 @@ public class EasyMockPropertyUtilsTest
 	/** Integer TestClass property */
 	private static final int INT_VALUE = 5;
 
-	/** Matching test. */
-	private TestClass matchTest;
+	/** TestClass property */
+	private static final String PROPERTY = "value";
 
-	/** Matches both values test. */
-	private TestClass matchBothTest;
+	/** TestClass property */
+	private static final String VALUE = "testValue";
 
 	/** Non-matching test. */
 	private TestClass failTest;
 
-	/** Matching integer test. */
-	private TestClass intMatchTest;
-
 	/** Non-matching integer test. */
 	private TestClass intFailTest;
 
+	/** Matching integer test. */
+	private TestClass intMatchTest;
+
 	/** ITest interface to mock. */
 	private ITest iTest;
+
+	/** Matches both values test. */
+	private TestClass matchBothTest;
+
+	/** Matching test. */
+	private TestClass matchTest;
 
 	/**
 	 * Sets up for the tests.
@@ -168,6 +168,39 @@ public class EasyMockPropertyUtilsTest
 		this.iTest = createMock(ITest.class);
 		this.matchBothTest = new TestClass(VALUE);
 		this.matchBothTest.setIntValue(INT_VALUE);
+	}
+
+	/**
+	 * Tests the propertiesEq method.
+	 */
+	@Test(groups = "integration")
+	public void testPropertiesEq()
+	{
+		final Map<String, Object> properties = new HashMap<String, Object>();
+		properties.put(PROPERTY, VALUE);
+		properties.put(INT_PROPERTY, INT_VALUE);
+
+		// TestClass that property succeeds
+		this.iTest.doSomething(propertiesEq(TestClass.class, properties));
+		replay(this.iTest);
+		this.iTest.doSomething(this.matchBothTest);
+		verify(this.iTest);
+
+		// TestClass that non-matching property fails
+		reset(this.iTest);
+		this.iTest.doSomething(propertiesEq(TestClass.class, properties));
+		replay(this.iTest);
+		try
+		{
+			this.iTest.doSomething(this.failTest);
+			verify(this.iTest);
+
+			fail("Non-matching property value should not match.");
+		}
+		catch (final Throwable t)
+		{
+			assertTrue(t instanceof AssertionError);
+		}
 	}
 
 	/**
@@ -215,39 +248,6 @@ public class EasyMockPropertyUtilsTest
 			verify(this.iTest);
 
 			fail("Non-matching integer property value should not match.");
-		}
-		catch (final Throwable t)
-		{
-			assertTrue(t instanceof AssertionError);
-		}
-	}
-
-	/**
-	 * Tests the propertiesEq method.
-	 */
-	@Test(groups = "integration")
-	public void testPropertiesEq()
-	{
-		final Map<String, Object> properties = new HashMap<String, Object>();
-		properties.put(PROPERTY, VALUE);
-		properties.put(INT_PROPERTY, INT_VALUE);
-
-		// TestClass that property succeeds
-		this.iTest.doSomething(propertiesEq(TestClass.class, properties));
-		replay(this.iTest);
-		this.iTest.doSomething(this.matchBothTest);
-		verify(this.iTest);
-
-		// TestClass that non-matching property fails
-		reset(this.iTest);
-		this.iTest.doSomething(propertiesEq(TestClass.class, properties));
-		replay(this.iTest);
-		try
-		{
-			this.iTest.doSomething(this.failTest);
-			verify(this.iTest);
-
-			fail("Non-matching property value should not match.");
 		}
 		catch (final Throwable t)
 		{
