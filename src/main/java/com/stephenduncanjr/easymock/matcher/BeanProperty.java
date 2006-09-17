@@ -66,15 +66,16 @@ public class BeanProperty implements IArgumentMatcher
 	 */
 	public void appendTo(final StringBuffer buffer)
 	{
-		buffer.append("propertyEq(");
+        buffer.append("propertyEq(");
 
-		for (final Entry<String, ?> entry : this.expectedProperties.entrySet())
-		{
-			buffer.append(entry.getKey());
-			buffer.append('=');
-			buffer.append(entry.getValue());
-			buffer.append(')');
-		}
+        for (final Entry<String, ?> entry : this.expectedProperties.entrySet()) {
+            buffer.append(entry.getKey());
+            buffer.append("=");
+            buffer.append(entry.getValue());
+            buffer.append(", ");
+        }
+        
+        buffer.replace(buffer.length() - 2, buffer.length(), ")");
 	}
 
 	/**
