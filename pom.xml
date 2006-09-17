@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.stephenduncanjr.easymock</groupId>
+
+	<artifactId>easymock-propertyutils</artifactId>
+
+	<packaging>jar</packaging>
+
+	<name>EasyMock Property Utilities</name>
+
+	<version>1.0-SNAPSHOT</version>
+
+	<description>
+		Utilities for Using JavaBean-style Properties with EasyMock
+	</description>
+
+	<inceptionYear>2006</inceptionYear>
+
+	<developers>
+		<developer>
+			<id>duncans</id>
+			<name>Stephen Duncan Jr</name>
+			<email>stephen.duncan@gmail.com</email>
+		</developer>
+	</developers>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<suiteXmlFiles>
+						<suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+					</suiteXmlFiles>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>2.2</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.7.0</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<classifier>jdk15</classifier>
+			<version>5.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>
