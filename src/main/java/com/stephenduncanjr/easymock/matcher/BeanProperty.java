@@ -104,6 +104,9 @@ public class BeanProperty implements IArgumentMatcher
 			{
 				return false;
 			}
+			catch (RuntimeException e) {
+				return false;
+			}
 		}
 
 		return true;
