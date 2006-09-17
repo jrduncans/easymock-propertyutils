@@ -16,21 +16,45 @@
 
 	<version>1.0-SNAPSHOT</version>
 
-	<description>
-		Utilities for Using JavaBean-style Properties with EasyMock
-	</description>
+	<description>Utilities for Using JavaBean-style Properties with EasyMock</description>
+	
+	<url>http://code.google.com/p/jrduncans/</url>
+	
+	<issueManagement>
+		<system>Google Code Hosting</system>
+		<url>http://code.google.com/p/jrduncans/issues/list</url>
+	</issueManagement>
 
 	<inceptionYear>2006</inceptionYear>
 
 	<developers>
 		<developer>
-			<id>duncans</id>
+			<id>jrduncans</id>
 			<name>Stephen Duncan Jr</name>
 			<email>stephen.duncan@gmail.com</email>
+			<url>http://www.stephenduncanjr.com</url>
+			<timezone>-5</timezone>
+			<roles>
+				<role>Project Owner</role>
+			</roles>
 		</developer>
 	</developers>
+	
+	<licenses>
+		<license>
+			<name>Apache License 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	
+	<scm>
+		<connection>scm:svn:http://jrduncans.googlecode.com/svn/trunk/easymock-propertyutils</connection>
+		<developerConnection>scm:svn:https://jrduncans.googlecode.com/svn/trunk/easymock-propertyutils</developerConnection>
+		<url>http://jrduncans.googlecode.com/svn/trunk/easymock-propertyutils</url>
+	</scm>
 
-	<build>
+	<build>	
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
