@@ -6,7 +6,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.stephenduncanjr.easymock</groupId>
+	<groupId>com.stephenduncanjr</groupId>
 
 	<artifactId>easymock-propertyutils</artifactId>
 
