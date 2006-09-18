@@ -34,7 +34,7 @@ import org.testng.annotations.Test;
  * 
  * Class created on Aug 17, 2006.
  * 
- * @author duncans (Stephen C. Duncan Jr. &lt;stephen.duncan@gmail.com&gt;)
+ * @author stephen.duncan (Stephen C. Duncan Jr. &lt;stephen.duncan@gmail.com&gt;)
  * @since 1.0
  */
 public class EasyMockPropertyUtilsTest
