@@ -25,9 +25,8 @@ import org.easymock.IArgumentMatcher;
 /**
  * Matches based on a bean property.
  * 
- * Class created on Aug 16, 2006.
- * 
- * @author stephen.duncan (Stephen C. Duncan Jr. &lt;stephen.duncan@gmail.com&gt;)
+ * @author stephen.duncan (Stephen C. Duncan Jr.
+ *         &lt;stephen.duncan@gmail.com&gt;)
  * @since 1.0
  */
 public class BeanProperty implements IArgumentMatcher
@@ -66,16 +65,17 @@ public class BeanProperty implements IArgumentMatcher
 	 */
 	public void appendTo(final StringBuffer buffer)
 	{
-        buffer.append("propertyEq(");
+		buffer.append("propertyEq(");
 
-        for (final Entry<String, ?> entry : this.expectedProperties.entrySet()) {
-            buffer.append(entry.getKey());
-            buffer.append("=");
-            buffer.append(entry.getValue());
-            buffer.append(", ");
-        }
-        
-        buffer.replace(buffer.length() - 2, buffer.length(), ")");
+		for(final Entry<String, ?> entry : this.expectedProperties.entrySet())
+		{
+			buffer.append(entry.getKey());
+			buffer.append("=");
+			buffer.append(entry.getValue());
+			buffer.append(", ");
+		}
+
+		buffer.replace(buffer.length() - 2, buffer.length(), ")");
 	}
 
 	/**
@@ -83,29 +83,30 @@ public class BeanProperty implements IArgumentMatcher
 	 */
 	public boolean matches(final Object actual)
 	{
-		for (final Entry<String, ?> entry : this.expectedProperties.entrySet())
+		for(final Entry<String, ?> entry : this.expectedProperties.entrySet())
 		{
 			try
 			{
 				final Object actualValue = PropertyUtils.getProperty(actual, entry.getKey());
-				if (!(entry.getValue() == actualValue || entry.getValue().equals(actualValue)))
+				if(!(entry.getValue() == actualValue || entry.getValue().equals(actualValue)))
 				{
 					return false;
 				}
 			}
-			catch (IllegalAccessException e)
+			catch(IllegalAccessException e)
 			{
 				return false;
 			}
-			catch (InvocationTargetException e)
+			catch(InvocationTargetException e)
 			{
 				return false;
 			}
-			catch (NoSuchMethodException e)
+			catch(NoSuchMethodException e)
 			{
 				return false;
 			}
-			catch (RuntimeException e) {
+			catch(RuntimeException e)
+			{
 				return false;
 			}
 		}

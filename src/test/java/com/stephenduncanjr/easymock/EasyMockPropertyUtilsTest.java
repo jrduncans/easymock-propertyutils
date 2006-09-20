@@ -32,9 +32,8 @@ import org.testng.annotations.Test;
 /**
  * Tests EasyMockPropertyUtils.
  * 
- * Class created on Aug 17, 2006.
- * 
- * @author stephen.duncan (Stephen C. Duncan Jr. &lt;stephen.duncan@gmail.com&gt;)
+ * @author stephen.duncan (Stephen C. Duncan Jr.
+ *         &lt;stephen.duncan@gmail.com&gt;)
  * @since 1.0
  */
 public class EasyMockPropertyUtilsTest
@@ -197,7 +196,7 @@ public class EasyMockPropertyUtilsTest
 
 			fail("Non-matching property value should not match.");
 		}
-		catch (final Throwable t)
+		catch(final Throwable t)
 		{
 			assertTrue(t instanceof AssertionError);
 		}
@@ -226,7 +225,7 @@ public class EasyMockPropertyUtilsTest
 
 			fail("Non-matching property value should not match.");
 		}
-		catch (final Throwable t)
+		catch(final Throwable t)
 		{
 			assertTrue(t instanceof AssertionError);
 		}
@@ -249,7 +248,7 @@ public class EasyMockPropertyUtilsTest
 
 			fail("Non-matching integer property value should not match.");
 		}
-		catch (final Throwable t)
+		catch(final Throwable t)
 		{
 			assertTrue(t instanceof AssertionError);
 		}

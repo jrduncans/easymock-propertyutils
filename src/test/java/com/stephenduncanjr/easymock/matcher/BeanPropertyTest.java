@@ -24,9 +24,8 @@ import org.testng.annotations.Test;
 /**
  * Tests the BeanProperty matcher.
  * 
- * Class created on Aug 17, 2006. TestClass
- * 
- * @author stephen.duncan (Stephen C. Duncan Jr. &lt;stephen.duncan@gmail.com&gt;)
+ * @author stephen.duncan (Stephen C. Duncan Jr.
+ *         &lt;stephen.duncan@gmail.com&gt;)
  * @since 1.0
  */
 public class BeanPropertyTest

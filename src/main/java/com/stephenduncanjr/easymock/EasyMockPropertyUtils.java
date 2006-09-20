@@ -22,9 +22,8 @@ import com.stephenduncanjr.easymock.matcher.BeanProperty;
 /**
  * Utilities for using EasyMock.
  * 
- * Class created on Aug 16, 2006.
- * 
- * @author stephen.duncan (Stephen C. Duncan Jr. &lt;stephen.duncan@gmail.com&gt;)
+ * @author stephen.duncan (Stephen C. Duncan Jr.
+ *         &lt;stephen.duncan@gmail.com&gt;)
  * @since 1.0
  */
 public class EasyMockPropertyUtils
