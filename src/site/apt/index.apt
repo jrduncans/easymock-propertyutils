@@ -15,7 +15,7 @@ Introduction
  It's a TestNG test class with two test methods. The first, <<<testSayHelloTo()>>> uses the single-property matcher test. 
  The second, <<<testSay()>>> uses the multiple-property matcher test by supplying a Map of property names to property values.
  
-+-----+
++---+
 package test;
 
 import static com.stephenduncanjr.easymock.EasyMockPropertyUtils.propertiesEq;
@@ -76,4 +76,4 @@ public class ServiceTest
         verify(messagingService);
     }
 }
-+-----+
++---+
