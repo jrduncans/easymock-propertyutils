@@ -1,0 +1,79 @@
+ ---
+  Introduction
+ ---
+ Stephen Duncan Jr
+ ---
+
+Introduction
+
+ This library allows you to use JavaBeans-style property matching for arguments when using {{{http://easymock.org}EasyMock}}.
+ Property matching is based on {{{http://jakarta.apache.org/commons/beanutils}commons-beanutils}} 
+ as documented in {{{http://jakarta.apache.org/commons/beanutils/apidocs/org/apache/commons/beanutils/package-summary.html#standard}Standard JavaBeans}}.
+   
+*Example Usage
+
+ It's a TestNG test class with two test methods. The first, <<<testSayHelloTo()>>> uses the single-property matcher test. 
+ The second, <<<testSay()>>> uses the multiple-property matcher test by supplying a Map of property names to property values.
+ 
++-----+
+package test;
+
+import static com.stephenduncanjr.easymock.EasyMockPropertyUtils.propertiesEq;
+import static com.stephenduncanjr.easymock.EasyMockPropertyUtils.propertyEq;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.testng.annotations.Test;
+
+/**
+ * Test the Service class.
+ */
+public class ServiceTest
+{
+    /**
+     * Test the sayHelloTo method.
+     */
+    @Test
+    public void testSayHelloTo()
+    {
+        String address = "someone@example.com";
+        MessagingService messagingService = createMock(MessagingService.class);
+        messagingService.sendMessage(propertyEq(Message.class, "address", address));
+        replay(messagingService);
+
+        Service service = new Service();
+        service.setMessagingService(messagingService);
+        service.sayHelloTo(address);
+
+        verify(messagingService);
+    }
+
+    /**
+     * Test the say method.
+     */
+    @Test
+    public void testSay()
+    {
+        String address = "someone@example.com";
+        String text = "some text";
+
+        Map<String, Object> properties = new HashMap<String, Object>();
+        properties.put("address", address);
+        properties.put("message", text);
+
+        MessagingService messagingService = createMock(MessagingService.class);
+        messagingService.sendMessage(propertiesEq(Message.class, properties));
+        replay(messagingService);
+
+        Service service = new Service();
+        service.setMessagingService(messagingService);
+        service.say(address, text);
+
+        verify(messagingService);
+    }
+}
++-----+
