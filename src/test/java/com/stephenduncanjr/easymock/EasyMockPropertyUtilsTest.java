@@ -24,6 +24,8 @@ import static org.testng.Assert.fail;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.testng.annotations.BeforeMethod;
@@ -188,6 +190,74 @@ public class EasyMockPropertyUtilsTest
 		// TestClass that non-matching property fails
 		reset(this.iTest);
 		this.iTest.doSomething(propertiesEq(TestClass.class, properties));
+		replay(this.iTest);
+		try
+		{
+			this.iTest.doSomething(this.failTest);
+			verify(this.iTest);
+
+			fail("Non-matching property value should not match.");
+		}
+		catch(final Throwable t)
+		{
+			assertTrue(t instanceof AssertionError);
+		}
+	}
+
+	/**
+	 * Tests the propertiesEq method that takes an object to compare to.
+	 */
+	@Test(groups = "integration")
+	public void testPropertiesEqFromObject()
+	{
+		final TestClass valuesObject = new TestClass(INT_VALUE);
+		valuesObject.setValue(VALUE);
+
+		// TestClass that property succeeds
+		this.iTest.doSomething(propertiesEq(TestClass.class, valuesObject));
+		replay(this.iTest);
+		this.iTest.doSomething(this.matchBothTest);
+		verify(this.iTest);
+
+		// TestClass that non-matching property fails
+		reset(this.iTest);
+		this.iTest.doSomething(propertiesEq(TestClass.class, valuesObject));
+		replay(this.iTest);
+		try
+		{
+			this.iTest.doSomething(this.failTest);
+			verify(this.iTest);
+
+			fail("Non-matching property value should not match.");
+		}
+		catch(final Throwable t)
+		{
+			assertTrue(t instanceof AssertionError);
+		}
+	}
+
+	/**
+	 * Tests the propertiesEq method that takes an object to compare to.
+	 */
+	@Test(groups = "integration")
+	public void testPropertiesEqFromObjectWithIgnore()
+	{
+		// Test with bad int value, should still pass by ignoring it.
+		final TestClass valuesObject = new TestClass(7);
+		valuesObject.setValue(VALUE);
+
+		final List<String> ignore = new LinkedList<String>();
+		ignore.add("intValue");
+
+		// TestClass that property succeeds
+		this.iTest.doSomething(propertiesEq(TestClass.class, valuesObject, ignore));
+		replay(this.iTest);
+		this.iTest.doSomething(this.matchBothTest);
+		verify(this.iTest);
+
+		// TestClass that non-matching property fails
+		reset(this.iTest);
+		this.iTest.doSomething(propertiesEq(TestClass.class, valuesObject, ignore));
 		replay(this.iTest);
 		try
 		{

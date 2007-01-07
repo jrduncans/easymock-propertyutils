@@ -15,6 +15,14 @@ package com.stephenduncanjr.easymock;
 
 import static org.easymock.EasyMock.reportMatcher;
 
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.stephenduncanjr.easymock.matcher.BeanProperty;
@@ -47,12 +55,54 @@ public class EasyMockPropertyUtils
 	 * @param properties
 	 *        The map of property names to property values.
 	 * @return fake return value for EasyMock use.
+	 */
+	public static <T> T propertiesEq(@SuppressWarnings("unused")
+	final Class<T> inClass, final Map<String, ?> properties)
+	{
+		reportMatcher(new BeanProperty(properties));
+		return null;
+	}
+
+	/**
+	 * EasyMock matcher for the properties on the argument to match the
+	 * properties on the given object.
+	 * 
+	 * @param <T>
+	 *        The type of object to match.
+	 * @param inClass
+	 *        The type of the object to match.
+	 * @param valuesObject
+	 *        the object to match values against.
+	 * @return fake return value for EasyMock use.
 	 * @since 1.1
 	 */
 	public static <T> T propertiesEq(@SuppressWarnings("unused")
-	Class<T> inClass, final Map<String, ?> properties)
+	final Class<T> inClass, final Object valuesObject)
 	{
-		reportMatcher(new BeanProperty(properties));
+		reportMatcher(new BeanProperty(retrieveAndFilterProperties(valuesObject, null)));
+		return null;
+	}
+
+	/**
+	 * EasyMock matcher for the properties on the argument to match the
+	 * properties on the given object, ignoring the properties named in the
+	 * given list.
+	 * 
+	 * @param <T>
+	 *        The type of object to match.
+	 * @param inClass
+	 *        The type of the object to match.
+	 * @param valuesObject
+	 *        the object to match values against.
+	 * @param ignored
+	 *        the list of property names to ignore.
+	 * @return fake return value for EasyMock use.
+	 * @since 1.1
+	 */
+	public static <T> T propertiesEq(@SuppressWarnings("unused")
+	final Class<T> inClass, final Object valuesObject, final List<String> ignored)
+	{
+		reportMatcher(new BeanProperty(retrieveAndFilterProperties(valuesObject, ignored)));
 		return null;
 	}
 
@@ -75,5 +125,54 @@ public class EasyMockPropertyUtils
 	{
 		reportMatcher(new BeanProperty(property, value));
 		return null;
+	}
+
+	/**
+	 * Gets the properties and values from the object as a map, ignoring the
+	 * properties specified.
+	 * 
+	 * @param bean
+	 * @param ignoredProperties
+	 * @return map of properties names to values.
+	 */
+	private static Map<String, Object> retrieveAndFilterProperties(final Object bean, final List<String> ignoredProperties)
+	{
+		final Map<String, Object> map = new HashMap<String, Object>();
+
+		try
+		{
+			BeanInfo info;
+			info = Introspector.getBeanInfo(bean.getClass());
+
+			for(final PropertyDescriptor p : info.getPropertyDescriptors())
+			{
+				final Method readMethod = p.getReadMethod();
+				final Object value = readMethod.invoke(bean);
+				map.put(p.getName(), value);
+			}
+
+			// Must remove the class property, as it should be ignored.
+			map.remove("class");
+		}
+		catch(final IntrospectionException e)
+		{
+			throw new IllegalArgumentException(e);
+		}
+		catch(final IllegalAccessException e)
+		{
+			throw new IllegalArgumentException(e);
+		}
+		catch(final InvocationTargetException e)
+		{
+			throw new IllegalArgumentException(e);
+		}
+
+		if(ignoredProperties != null)
+		{
+			for(final String property : ignoredProperties)
+				map.remove(property);
+		}
+
+		return map;
 	}
 }
