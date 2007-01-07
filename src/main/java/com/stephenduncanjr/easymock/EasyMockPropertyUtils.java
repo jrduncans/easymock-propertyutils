@@ -21,6 +21,7 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -103,6 +104,29 @@ public class EasyMockPropertyUtils
 	final Class<T> inClass, final Object valuesObject, final List<String> ignored)
 	{
 		reportMatcher(new BeanProperty(retrieveAndFilterProperties(valuesObject, ignored)));
+		return null;
+	}
+	
+	/**
+	 * EasyMock matcher for the properties on the argument to match the
+	 * properties on the given object, ignoring the properties named in the
+	 * given array.
+	 * 
+	 * @param <T>
+	 *        The type of object to match.
+	 * @param inClass
+	 *        The type of the object to match.
+	 * @param valuesObject
+	 *        the object to match values against.
+	 * @param ignored
+	 *        the list of property names to ignore.
+	 * @return fake return value for EasyMock use.
+	 * @since 1.1
+	 */
+	public static <T> T propertiesEq(@SuppressWarnings("unused")
+	final Class<T> inClass, final Object valuesObject, final String[] ignored)
+	{
+		reportMatcher(new BeanProperty(retrieveAndFilterProperties(valuesObject, Arrays.asList(ignored))));
 		return null;
 	}
 

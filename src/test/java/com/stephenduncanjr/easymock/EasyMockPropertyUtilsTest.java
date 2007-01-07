@@ -257,7 +257,7 @@ public class EasyMockPropertyUtilsTest
 
 		// TestClass that non-matching property fails
 		reset(this.iTest);
-		this.iTest.doSomething(propertiesEq(TestClass.class, valuesObject, ignore));
+		this.iTest.doSomething(propertiesEq(TestClass.class, valuesObject, new String[] { "intValue"}));
 		replay(this.iTest);
 		try
 		{
