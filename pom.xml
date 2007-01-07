@@ -36,6 +36,16 @@
 		</developer>
 	</developers>
 	
+	<contributors>
+		<contributor>
+			<name>Olivier Pernet</name>
+			<email>o.pernet@gmail.com</email>
+			<roles>
+				<role>Feature Contributor</role>
+			</roles>
+		</contributor>
+	</contributors>
+	
 	<licenses>
 		<license>
 			<name>Apache License 2.0</name>
