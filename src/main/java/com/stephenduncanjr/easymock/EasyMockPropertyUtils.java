@@ -106,7 +106,7 @@ public class EasyMockPropertyUtils
 		reportMatcher(new BeanProperty(retrieveAndFilterProperties(valuesObject, ignored)));
 		return null;
 	}
-	
+
 	/**
 	 * EasyMock matcher for the properties on the argument to match the
 	 * properties on the given object, ignoring the properties named in the
@@ -125,6 +125,63 @@ public class EasyMockPropertyUtils
 	 */
 	public static <T> T propertiesEq(@SuppressWarnings("unused")
 	final Class<T> inClass, final Object valuesObject, final String[] ignored)
+	{
+		reportMatcher(new BeanProperty(retrieveAndFilterProperties(valuesObject, Arrays.asList(ignored))));
+		return null;
+	}
+
+	/**
+	 * EasyMock matcher for the properties on the argument to match the
+	 * properties on the given object.
+	 * 
+	 * @param <T>
+	 *        The type of object to match.
+	 * @param valuesObject
+	 *        the object to match values against.
+	 * @return fake return value for EasyMock use.
+	 * @since 1.1
+	 */
+	public static <T> T propertiesEq(final T valuesObject)
+	{
+		reportMatcher(new BeanProperty(retrieveAndFilterProperties(valuesObject, null)));
+		return null;
+	}
+
+	/**
+	 * EasyMock matcher for the properties on the argument to match the
+	 * properties on the given object, ignoring the properties named in the
+	 * given list.
+	 * 
+	 * @param <T>
+	 *        The type of object to match.
+	 * @param valuesObject
+	 *        the object to match values against.
+	 * @param ignored
+	 *        the list of property names to ignore.
+	 * @return fake return value for EasyMock use.
+	 * @since 1.1
+	 */
+	public static <T> T propertiesEq(final T valuesObject, final List<String> ignored)
+	{
+		reportMatcher(new BeanProperty(retrieveAndFilterProperties(valuesObject, ignored)));
+		return null;
+	}
+
+	/**
+	 * EasyMock matcher for the properties on the argument to match the
+	 * properties on the given object, ignoring the properties named in the
+	 * given array.
+	 * 
+	 * @param <T>
+	 *        The type of object to match.
+	 * @param valuesObject
+	 *        the object to match values against.
+	 * @param ignored
+	 *        the list of property names to ignore.
+	 * @return fake return value for EasyMock use.
+	 * @since 1.1
+	 */
+	public static <T> T propertiesEq(final T valuesObject, final String[] ignored)
 	{
 		reportMatcher(new BeanProperty(retrieveAndFilterProperties(valuesObject, Arrays.asList(ignored))));
 		return null;
