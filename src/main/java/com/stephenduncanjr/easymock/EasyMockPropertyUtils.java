@@ -274,7 +274,10 @@ public class EasyMockPropertyUtils
 				if(!ignoredProperties.contains(p.getName()) && !"class".equals(p.getName()))
 				{
 					final Method readMethod = p.getReadMethod();
-					map.put(p.getName(), readMethod.invoke(bean));
+					
+					if (readMethod != null) {
+						map.put(p.getName(), readMethod.invoke(bean));
+					}
 				}
 			}
 		}
