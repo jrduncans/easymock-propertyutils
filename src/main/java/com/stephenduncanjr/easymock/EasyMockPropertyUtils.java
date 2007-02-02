@@ -56,8 +56,9 @@ public class EasyMockPropertyUtils
 	 * @param properties
 	 *        The map of property names to property values.
 	 * @return fake return value for EasyMock use.
+	 * @since 1.1
 	 */
-	public static <T> T propertiesEq(@SuppressWarnings("unused")
+	public static <T> T propEq(@SuppressWarnings("unused")
 	final Class<T> inClass, final Map<String, ?> properties)
 	{
 		reportMatcher(new BeanProperty(properties));
@@ -77,7 +78,7 @@ public class EasyMockPropertyUtils
 	 * @return fake return value for EasyMock use.
 	 * @since 1.1
 	 */
-	public static <T> T propertiesEq(@SuppressWarnings("unused")
+	public static <T> T propEq(@SuppressWarnings("unused")
 	final Class<T> inClass, final Object valuesObject)
 	{
 		reportMatcher(new BeanProperty(retrieveAndFilterProperties(valuesObject, null)));
@@ -100,7 +101,7 @@ public class EasyMockPropertyUtils
 	 * @return fake return value for EasyMock use.
 	 * @since 1.1
 	 */
-	public static <T> T propertiesEq(@SuppressWarnings("unused")
+	public static <T> T propEq(@SuppressWarnings("unused")
 	final Class<T> inClass, final Object valuesObject, final List<String> ignored)
 	{
 		reportMatcher(new BeanProperty(retrieveAndFilterProperties(valuesObject, ignored)));
@@ -123,10 +124,32 @@ public class EasyMockPropertyUtils
 	 * @return fake return value for EasyMock use.
 	 * @since 1.1
 	 */
-	public static <T> T propertiesEq(@SuppressWarnings("unused")
+	public static <T> T propEq(@SuppressWarnings("unused")
 	final Class<T> inClass, final Object valuesObject, final String[] ignored)
 	{
 		reportMatcher(new BeanProperty(retrieveAndFilterProperties(valuesObject, Arrays.asList(ignored))));
+		return null;
+	}
+
+	/**
+	 * EasyMock matcher for the property on the object to be matched being equal
+	 * to the given value.
+	 * 
+	 * @param <T>
+	 *        The type of object to match.
+	 * @param inClass
+	 *        The type of the object to match.
+	 * @param property
+	 *        the name of the property.
+	 * @param value
+	 *        The value of the property to ccompare against.
+	 * @return fake return value for EasyMock use.
+	 * @since 1.1
+	 */
+	public static <T> T propEq(@SuppressWarnings("unused")
+	final Class<T> inClass, final String property, final Object value)
+	{
+		reportMatcher(new BeanProperty(property, value));
 		return null;
 	}
 
@@ -141,7 +164,7 @@ public class EasyMockPropertyUtils
 	 * @return fake return value for EasyMock use.
 	 * @since 1.1
 	 */
-	public static <T> T propertiesEq(final T valuesObject)
+	public static <T> T propEq(final T valuesObject)
 	{
 		reportMatcher(new BeanProperty(retrieveAndFilterProperties(valuesObject, null)));
 		return null;
@@ -161,7 +184,7 @@ public class EasyMockPropertyUtils
 	 * @return fake return value for EasyMock use.
 	 * @since 1.1
 	 */
-	public static <T> T propertiesEq(final T valuesObject, final List<String> ignored)
+	public static <T> T propEq(final T valuesObject, final List<String> ignored)
 	{
 		reportMatcher(new BeanProperty(retrieveAndFilterProperties(valuesObject, ignored)));
 		return null;
@@ -181,10 +204,30 @@ public class EasyMockPropertyUtils
 	 * @return fake return value for EasyMock use.
 	 * @since 1.1
 	 */
-	public static <T> T propertiesEq(final T valuesObject, final String[] ignored)
+	public static <T> T propEq(final T valuesObject, final String[] ignored)
 	{
 		reportMatcher(new BeanProperty(retrieveAndFilterProperties(valuesObject, Arrays.asList(ignored))));
 		return null;
+	}
+
+	/**
+	 * EasyMock matcher for the properties on the object to be matched being
+	 * equal to the mapped value.
+	 * 
+	 * @param <T>
+	 *        The type of object to match.
+	 * @param inClass
+	 *        The type of the object to match.
+	 * @param properties
+	 *        The map of property names to property values.
+	 * @return fake return value for EasyMock use.
+	 * @deprecated As of 1.1, replaced by {@link #propEq(Class, Map)}
+	 */
+	@Deprecated
+	public static <T> T propertiesEq(@SuppressWarnings("unused")
+	final Class<T> inClass, final Map<String, ?> properties)
+	{
+		return EasyMockPropertyUtils.propertiesEq(inClass, properties);
 	}
 
 	/**
@@ -199,13 +242,14 @@ public class EasyMockPropertyUtils
 	 *        the name of the property.
 	 * @param value
 	 *        The value of the property to ccompare against.
-	 * @return fake return value for EasyMock use.
+	 * @return fake return value for EasyMock use. *
+	 * @deprecated As of 1.1, replaced by {@link #propEq(Class, String, Object)}
 	 */
+	@Deprecated
 	public static <T> T propertyEq(@SuppressWarnings("unused")
 	final Class<T> inClass, final String property, final Object value)
 	{
-		reportMatcher(new BeanProperty(property, value));
-		return null;
+		return EasyMockPropertyUtils.propEq(inClass, property, value);
 	}
 
 	/**

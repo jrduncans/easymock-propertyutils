@@ -13,8 +13,7 @@
  */
 package com.stephenduncanjr.easymock;
 
-import static com.stephenduncanjr.easymock.EasyMockPropertyUtils.propertiesEq;
-import static com.stephenduncanjr.easymock.EasyMockPropertyUtils.propertyEq;
+import static com.stephenduncanjr.easymock.EasyMockPropertyUtils.propEq;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.reset;
@@ -182,14 +181,14 @@ public class EasyMockPropertyUtilsTest
 		properties.put(INT_PROPERTY, INT_VALUE);
 
 		// TestClass that property succeeds
-		this.iTest.doSomething(propertiesEq(TestClass.class, properties));
+		this.iTest.doSomething(propEq(TestClass.class, properties));
 		replay(this.iTest);
 		this.iTest.doSomething(this.matchBothTest);
 		verify(this.iTest);
 
 		// TestClass that non-matching property fails
 		reset(this.iTest);
-		this.iTest.doSomething(propertiesEq(TestClass.class, properties));
+		this.iTest.doSomething(propEq(TestClass.class, properties));
 		replay(this.iTest);
 		try
 		{
@@ -214,14 +213,14 @@ public class EasyMockPropertyUtilsTest
 		valuesObject.setValue(VALUE);
 
 		// TestClass that property succeeds
-		this.iTest.doSomething(propertiesEq(TestClass.class, valuesObject));
+		this.iTest.doSomething(propEq(TestClass.class, valuesObject));
 		replay(this.iTest);
 		this.iTest.doSomething(this.matchBothTest);
 		verify(this.iTest);
 
 		// TestClass that non-matching property fails
 		reset(this.iTest);
-		this.iTest.doSomething(propertiesEq(valuesObject));
+		this.iTest.doSomething(propEq(valuesObject));
 		replay(this.iTest);
 		try
 		{
@@ -250,14 +249,14 @@ public class EasyMockPropertyUtilsTest
 		ignore.add("intValue");
 
 		// TestClass that property succeeds
-		this.iTest.doSomething(propertiesEq(TestClass.class, valuesObject, ignore));
+		this.iTest.doSomething(propEq(TestClass.class, valuesObject, ignore));
 		replay(this.iTest);
 		this.iTest.doSomething(this.matchBothTest);
 		verify(this.iTest);
 
 		// TestClass that non-matching property fails
 		reset(this.iTest);
-		this.iTest.doSomething(propertiesEq(valuesObject, new String[] { "intValue"}));
+		this.iTest.doSomething(propEq(valuesObject, new String[] {"intValue"}));
 		replay(this.iTest);
 		try
 		{
@@ -279,14 +278,14 @@ public class EasyMockPropertyUtilsTest
 	public void testPropertyEq()
 	{
 		// TestClass that property succeeds
-		this.iTest.doSomething(propertyEq(TestClass.class, PROPERTY, VALUE));
+		this.iTest.doSomething(propEq(TestClass.class, PROPERTY, VALUE));
 		replay(this.iTest);
 		this.iTest.doSomething(this.matchTest);
 		verify(this.iTest);
 
 		// TestClass that non-matching property fails
 		reset(this.iTest);
-		this.iTest.doSomething(propertyEq(TestClass.class, PROPERTY, VALUE));
+		this.iTest.doSomething(propEq(TestClass.class, PROPERTY, VALUE));
 		replay(this.iTest);
 		try
 		{
@@ -302,14 +301,14 @@ public class EasyMockPropertyUtilsTest
 
 		// TestClass that property succeeds
 		reset(this.iTest);
-		this.iTest.doSomething(propertyEq(TestClass.class, INT_PROPERTY, INT_VALUE));
+		this.iTest.doSomething(propEq(TestClass.class, INT_PROPERTY, INT_VALUE));
 		replay(this.iTest);
 		this.iTest.doSomething(this.intMatchTest);
 		verify(this.iTest);
 
 		// TestClass that non-matching property fails
 		reset(this.iTest);
-		this.iTest.doSomething(propertyEq(TestClass.class, INT_PROPERTY, INT_VALUE));
+		this.iTest.doSomething(propEq(TestClass.class, INT_PROPERTY, INT_VALUE));
 		replay(this.iTest);
 		try
 		{
