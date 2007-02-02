@@ -15,16 +15,16 @@ package com.stephenduncanjr.easymock;
 
 import static org.easymock.EasyMock.reportMatcher;
 
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.beanutils.PropertyUtils;
 
 import com.stephenduncanjr.easymock.matcher.BeanProperty;
 
@@ -37,6 +37,9 @@ import com.stephenduncanjr.easymock.matcher.BeanProperty;
  */
 public class EasyMockPropertyUtils
 {
+	/** Empty List. */
+	private static final List<String> EMPTY = new LinkedList<String>();
+
 	/**
 	 * Disables object creation.
 	 */
@@ -81,7 +84,7 @@ public class EasyMockPropertyUtils
 	public static <T> T propEq(@SuppressWarnings("unused")
 	final Class<T> inClass, final Object valuesObject)
 	{
-		reportMatcher(new BeanProperty(retrieveAndFilterProperties(valuesObject, null)));
+		reportMatcher(new BeanProperty(retrieveAndFilterProperties(valuesObject, EMPTY)));
 		return null;
 	}
 
@@ -166,7 +169,7 @@ public class EasyMockPropertyUtils
 	 */
 	public static <T> T propEq(final T valuesObject)
 	{
-		reportMatcher(new BeanProperty(retrieveAndFilterProperties(valuesObject, null)));
+		reportMatcher(new BeanProperty(retrieveAndFilterProperties(valuesObject, EMPTY)));
 		return null;
 	}
 
@@ -266,22 +269,14 @@ public class EasyMockPropertyUtils
 
 		try
 		{
-			BeanInfo info;
-			info = Introspector.getBeanInfo(bean.getClass());
-
-			for(final PropertyDescriptor p : info.getPropertyDescriptors())
+			for(final PropertyDescriptor p : PropertyUtils.getPropertyDescriptors(bean))
 			{
-				final Method readMethod = p.getReadMethod();
-				final Object value = readMethod.invoke(bean);
-				map.put(p.getName(), value);
+				if(!ignoredProperties.contains(p.getName()) && !"class".equals(p.getName()))
+				{
+					final Method readMethod = p.getReadMethod();
+					map.put(p.getName(), readMethod.invoke(bean));
+				}
 			}
-
-			// Must remove the class property, as it should be ignored.
-			map.remove("class");
-		}
-		catch(final IntrospectionException e)
-		{
-			throw new IllegalArgumentException(e);
 		}
 		catch(final IllegalAccessException e)
 		{
@@ -290,12 +285,6 @@ public class EasyMockPropertyUtils
 		catch(final InvocationTargetException e)
 		{
 			throw new IllegalArgumentException(e);
-		}
-
-		if(ignoredProperties != null)
-		{
-			for(final String property : ignoredProperties)
-				map.remove(property);
 		}
 
 		return map;
