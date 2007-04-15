@@ -10,7 +10,7 @@
 
 	<name>EasyMock Property Utilities</name>
 
-	<version>1.1-SNAPSHOT</version>
+	<version>1.1</version>
 
 	<description>Utilities for Using JavaBean-style Properties with EasyMock</description>
 	
@@ -56,9 +56,9 @@
 	</licenses>
 	
 	<scm>
-		<connection>scm:svn:http://jrduncans.googlecode.com/svn/trunk/easymock-propertyutils</connection>
-		<developerConnection>scm:svn:https://jrduncans.googlecode.com/svn/trunk/easymock-propertyutils</developerConnection>
-		<url>http://jrduncans.googlecode.com/svn/trunk/easymock-propertyutils</url>
+		<connection>scm:svn:http://jrduncans.googlecode.com/svn/tags/easymock-propertyutils-1.1</connection>
+		<developerConnection>scm:svn:https://jrduncans.googlecode.com/svn/tags/easymock-propertyutils-1.1</developerConnection>
+		<url>http://jrduncans.googlecode.com/svn/tags/easymock-propertyutils-1.1</url>
 	</scm>
 	
 	<reporting>
