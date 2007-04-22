@@ -35,16 +35,7 @@ Introduction
 +---+
 package test;
 
-import static com.stephenduncanjr.easymock.EasyMockPropertyUtils.propertiesEq;
-import static com.stephenduncanjr.easymock.EasyMockPropertyUtils.propertyEq;
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.testng.annotations.Test;
+import static com.stephenduncanjr.easymock.EasyMockPropertyUtils.propEq;
 
 /**
  * Test the Service class.
@@ -59,7 +50,7 @@ public class ServiceTest
     {
         String address = "someone@example.com";
         MessagingService messagingService = createMock(MessagingService.class);
-        messagingService.sendMessage(propertyEq(Message.class, "address", address));
+        messagingService.sendMessage(propEq(Message.class, "address", address));
         replay(messagingService);
 
         Service service = new Service();
@@ -83,7 +74,31 @@ public class ServiceTest
         properties.put("message", text);
 
         MessagingService messagingService = createMock(MessagingService.class);
-        messagingService.sendMessage(propertiesEq(Message.class, properties));
+        messagingService.sendMessage(propEq(Message.class, properties));
+        replay(messagingService);
+
+        Service service = new Service();
+        service.setMessagingService(messagingService);
+        service.say(address, text);
+
+        verify(messagingService);
+    }
+    
+    /**
+     * Test the say method.
+     */
+    @Test
+    public void testSayAgain()
+    {
+        String address = "someone@example.com";
+        String text = "some text";
+
+        Message message = new Message();
+        message.setAddress(address);
+        message.setMessage(text);
+
+        MessagingService messagingService = createMock(MessagingService.class);
+        messagingService.sendMessage(propEq(message));
         replay(messagingService);
 
         Service service = new Service();
